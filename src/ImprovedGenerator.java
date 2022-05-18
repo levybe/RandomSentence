@@ -27,11 +27,14 @@ public class ImprovedGenerator {
     }
 
     public static void readInputFile(File filename) throws IOException {
-
+        Scanner scan = new Scanner(filename);
+        while (scan.hasNext()) {
+            allWords.add(scan.next());
+        }
+        scan.close();
     }
 
     public static void createMap() {
-
 
     }
 
