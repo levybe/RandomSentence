@@ -35,7 +35,22 @@ public class ImprovedGenerator {
     }
 
     public static void createMap() {
+        for (int x = 0; x < allWords.size(); x ++) {
+            ArrayList<String> keyWords = new ArrayList<>();
+            int wraparoundIndex = 0;
+            for (int y = 0; y < SEED - 1; y++) {
+                if (x + y % allWords.size() - 1 == 0) {
+                    keyWords.add(allWords.get(wraparoundIndex));
+                    wraparoundIndex++;
+                }
+                else {
+                    keyWords.add(allWords.get(x + y));
+                }
+            }
+            String nextWord = allWords.get(x + SEED);
 
+
+        }
     }
 
     /**
