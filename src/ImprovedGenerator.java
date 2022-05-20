@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,20 +38,33 @@ public class ImprovedGenerator {
     public static void createMap() {
         for (int x = 0; x < allWords.size(); x ++) {
             ArrayList<String> keyWords = new ArrayList<>();
+            String nextWord = "";
             int wraparoundIndex = 0;
             for (int y = 0; y < SEED - 1; y++) {
-                if (x + y % allWords.size() - 1 == 0) {
+                if (x + y < allWords.size()) {
+                    keyWords.add(allWords.get(x + y));
+                }
+                else {
                     keyWords.add(allWords.get(wraparoundIndex));
                     wraparoundIndex++;
                 }
-                else {
-                    keyWords.add(allWords.get(x + y));
-                }
             }
-            String nextWord = allWords.get(x + SEED);
-
-
+            if (x + SEED < allWords.size()) {
+                nextWord = allWords.get(x + SEED - 1);
+            }
+            else {
+                nextWord = allWords.get(wraparoundIndex);
+            }
+            if (seeds.containsKey(keyWords)) {
+                seeds.get(keyWords).add(nextWord);
+            }
+            else {
+                ArrayList<String> values = new ArrayList<>();
+                values.add(nextWord);
+                seeds.put(keyWords, values);
+            }
         }
+        System.out.println(seeds);
     }
 
     /**
