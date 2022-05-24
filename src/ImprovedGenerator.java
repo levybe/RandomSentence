@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class ImprovedGenerator {
 
     private static final int SEED = 3;
+    private static final int SENTENCELENGTH = 50;
     private static ArrayList<String> allWords = new ArrayList<>(); // holds each word of the input file
     private static Map<ArrayList<String>, ArrayList<String>> seeds = new HashMap<>();
 
@@ -20,11 +21,21 @@ public class ImprovedGenerator {
      */
     public static void main(String[] args) throws IOException  {
 
-        File file = new File("files/sample.txt"); // change this name for different input files.
+        File file = new File("files/alice.txt"); // change this name for different input files.
         readInputFile(file);
         createMap();
         generateText();
+    }
 
+    public static String makeUppercase (String word) {
+        String newWord = "";
+        if (word.length() > 1) {
+            newWord = word.substring(0, 1).toUpperCase() + word.substring(1);
+        }
+        else {
+            newWord = word.toUpperCase();
+        }
+        return newWord;
     }
 
     public static void readInputFile(File filename) throws IOException {
@@ -64,7 +75,6 @@ public class ImprovedGenerator {
                 seeds.put(keyWords, values);
             }
         }
-        System.out.println(seeds);
     }
 
     /**
@@ -88,7 +98,22 @@ public class ImprovedGenerator {
     }
 
     public static void generateText() {
-
+        String output = "";
+        ArrayList<String> startingKey = getStartingKey();
+        for (int x = 0; x < SENTENCELENGTH; x++) {
+            ArrayList<String> values = seeds.get(startingKey);
+            String randomWord = values.get((int) (Math.random() * values.size()));
+            startingKey.remove(0);
+            startingKey.add(randomWord);
+            randomWord = makeUppercase(randomWord);
+            if (x == SENTENCELENGTH - 1) {
+                output += randomWord + ".";
+            }
+            else {
+                output += randomWord + " ";
+            }
+        }
+        System.out.println(output);
     }
 
 }
